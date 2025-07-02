@@ -7,58 +7,61 @@ use app\models\cliente\Cliente;
 use app\models\Esys;
 use app\models\esys\EsysCambiosLog;
 use app\models\esys\EsysDireccion;
-
-
 ?>
 
 <div class="cliente-user-view">
     <div class="row">
+        <!-- Columna principal -->
         <div class="col-lg-9">
             <div class="row">
+                <!-- Sección izquierda - Información principal -->
                 <div class="col-md-7">
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>Cuenta de cliente y datos personales</h5>
+                    <!-- Tarjeta de información personal -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5><i class="fas fa-user"></i> Información Personal</h5>
                         </div>
-                        <div class="ibox-content">
+                        <div class="card-body">
                             <div class="row">
-                                <div class="col-md-7">
+                                <div class="col-md-6">
                                     <?= DetailView::widget([
                                         'model' => $model,
+                                        'options' => ['class' => 'table table-striped table-bordered detail-view'],
                                         'attributes' => [
                                             'id',
-                                            "email:email",
-                                        ],
-                                    ]) ?>
-                                    <?= DetailView::widget([
-                                        'model' => $model,
-                                        'attributes' => [
-                                            "tituloPersonal.singular",
-                                            "nombre",
-                                            "apellidos",
+                                            'email:email',
+                                            [
+                                                'attribute' => 'Título',
+                                                'value' => $model->tituloPersonal->singular ?? '',
+                                            ],
+                                            'nombre',
+                                            'apellidos',
+                                            [
+                                                'attribute' => 'Género',
+                                                'value' => $model->sexo ? Cliente::$sexoList[$model->sexo] : '',
+                                            ],
                                         ],
                                     ]) ?>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <?= DetailView::widget([
                                         'model' => $model,
+                                        'options' => ['class' => 'table table-striped table-bordered detail-view'],
                                         'attributes' => [
-                                          [
-                                             'attribute' =>  "Genero",
-                                             'format'    => 'raw',
-                                             'value'     => $model->sexo ?  Cliente::$sexoList[$model->sexo] : '',
-                                         ]
-                                        ],
-                                    ]) ?>
-                                    <?= DetailView::widget([
-                                        'model' => $model,
-                                        'attributes' => [
-                                            "telefono",
-                                            "telefono_movil",
+                                            'telefono',
+                                            'telefono_movil',
+                                            'rfc',
                                             [
                                                 'attribute' => 'Tipo de cliente',
-                                                'format'    => 'raw',
-                                                'value'     => isset($model->tipo->singular) ?  $model->tipo->singular : '',
+                                                'value' => $model->tipo->singular ?? '',
+                                            ],
+                                            [
+                                                'attribute' => 'Se enteró a través de',
+                                                'value' => $model->atravesDe->singular ?? '',
+                                            ],
+                                            [
+                                                'attribute' => 'Lista de precios',
+                                                'value' => isset($model->lista_precios) ? Cliente::$tipoListaPrecioList[$model->lista_precios] : '',
                                             ],
                                         ],
                                     ]) ?>
@@ -67,117 +70,150 @@ use app\models\esys\EsysDireccion;
                         </div>
                     </div>
 
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>CONDICIONES CREDITICIAS</h5>
+                    <!-- Tarjeta de información fiscal -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-info text-white">
+                            <h5><i class="fas fa-file-invoice-dollar"></i> Información Fiscal</h5>
                         </div>
-                        <div class="ibox-content">
-                            <div class="row text-center">
-                                <div class="col-sm-6">
-                                    <h2><?= $model->semanas ? $model->semanas : 0 ?> <p>( SEMANAS )</p></h2>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h2>$<?= number_format($model->monto_credito, 2) ?> <p>( TOTAL DE CREDITO )</p></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ibox">
-                        <div class="ibox-content">
+                        <div class="card-body">
                             <?= DetailView::widget([
                                 'model' => $model,
+                                'options' => ['class' => 'table table-striped table-bordered detail-view'],
                                 'attributes' => [
-                                     [
-                                         'attribute' => 'Se entero a través de',
-                                         'format'    => 'raw',
-                                         'value'     =>  isset($model->atravesDe->id) ?  $model->atravesDe->singular : '' ,
-                                     ]
+                                    [
+                                        'attribute' => 'Régimen fiscal',
+                                        'value' => $model->regimenFiscal->nombreCompleto ?? '',
+                                    ],
+                                    'uso_cfdi',
+                                    [
+                                        'attribute' => 'Agente asignado',
+                                        'format' => 'raw',
+                                        'value' => $model->agente ? 
+                                            Html::a($model->agente->nombreCompleto, ['/admin/user/view', 'id' => $model->agente->id]) : 
+                                            'No asignado',
+                                    ],
                                 ],
                             ]) ?>
                         </div>
                     </div>
 
+                   
 
-
-
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>Información extra / Comentarios</h5>
+                    <!-- Tarjeta de notas -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-secondary text-white">
+                            <h5><i class="fas fa-sticky-note"></i> Notas Adicionales</h5>
                         </div>
-                        <div class="ibox-content">
+                        <div class="card-body">
                             <?= DetailView::widget([
                                 'model' => $model,
+                                'options' => ['class' => 'table table-striped table-bordered detail-view'],
                                 'attributes' => [
-                                    'notas:ntext',
-                                ]
+                                    [
+                                        'attribute' => 'notas',
+                                        'format' => 'ntext',
+                                        'value' => $model->notas ?: 'Sin notas adicionales',
+                                    ],
+                                ],
                             ]) ?>
                         </div>
                     </div>
-
                 </div>
+
+                <!-- Sección derecha - Información secundaria -->
                 <div class="col-md-5">
-                    <div class="panel panel-info ">
-                        <div class="ibox-title">
-                                <h5><?= Cliente::$statusList[$model->status] ?> </h5>
+                    <!-- Tarjeta de estado -->
+                    <div class="card mb-4">
+                        <div class="card-header <?= $model->status == Cliente::STATUS_ACTIVE ? 'bg-success' : 'bg-danger' ?> text-white">
+                            <h5 class="text-center"><?= Cliente::$statusList[$model->status] ?></h5>
                         </div>
                     </div>
 
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>Dirección</h5>
+                    <!-- Tarjeta de dirección -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-success text-white">
+                            <h5><i class="fas fa-map-marker-alt"></i> Dirección</h5>
                         </div>
-                        <div class="ibox-content">
-                            <?= DetailView::widget([
-                                'model' => $model->direccion,
-                                'attributes' => [
-                                    'referencia',
-                                    'direccion',
-                                    'num_ext',
-                                    'num_int',
-                                    'esysDireccionCodigoPostal.colonia',
-
-                                ]
-                            ]) ?>
-                            <?= DetailView::widget([
-                                'model' => $model->direccion,
-                                'attributes' => [
-                                    "esysDireccionCodigoPostal.estado.singular",
-                                    "esysDireccionCodigoPostal.municipio.singular",
-                                ]
-                            ]) ?>
-
-                            <?= DetailView::widget([
-                                'model' => $model->direccion,
-                                'attributes' => [
-                                    'esysDireccionCodigoPostal.codigo_postal',
-                                ]
-                            ]) ?>
+                        <div class="card-body">
+                            <?php if ($model->direccion): ?>
+                                <?= DetailView::widget([
+                                    'model' => $model->direccion,
+                                    'options' => ['class' => 'table table-striped table-bordered detail-view'],
+                                    'attributes' => [
+                                        'direccion',
+                                        [
+                                            'label' => 'Número exterior',
+                                            'value' => $model->direccion->num_ext ?: 'S/N',
+                                        ],
+                                        [
+                                            'label' => 'Número interior',
+                                            'value' => $model->direccion->num_int ?: 'N/A',
+                                        ],
+                                        'referencia',
+                                        [
+                                            'label' => 'Colonia',
+                                            'value' => $model->direccion->esysDireccionCodigoPostal->colonia ?? '',
+                                        ],
+                                        [
+                                            'label' => 'Código Postal',
+                                            'value' => $model->direccion->esysDireccionCodigoPostal->codigo_postal ?? '',
+                                        ],
+                                        [
+                                            'label' => 'Municipio',
+                                            'value' => $model->direccion->esysDireccionCodigoPostal->municipio->singular ?? '',
+                                        ],
+                                        [
+                                            'label' => 'Estado',
+                                            'value' => $model->direccion->esysDireccionCodigoPostal->estado->singular ?? '',
+                                        ],
+                                    ],
+                                ]) ?>
+                            <?php else: ?>
+                                <div class="alert alert-warning">No se ha registrado dirección</div>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Columna lateral - Historial -->
         <div class="col-lg-3">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5>Historial de cambios</h5>
+            <!-- Tarjeta de historial de cambios -->
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h5><i class="fas fa-history"></i> Historial de Cambios</h5>
                 </div>
-                <div class="ibox-content historial-cambios nano">
-                    <div class="nano-content">
-                        <?= EsysCambiosLog::getHtmlLog([
-                            [new Cliente(), $model->id],
-                            [new EsysDireccion(), $model->direccion->id],
-                        ], 50, true) ?>
-                    </div>
+                <div class="card-body historial-cambios" style="max-height: 400px; overflow-y: auto;">
+                    <?= EsysCambiosLog::getHtmlLog([
+                        [new Cliente(), $model->id],
+                        [new EsysDireccion(), $model->direccion->id],
+                    ], 50, true) ?>
                 </div>
-                <div class="panel-footer">
-                    <?= Html::a('Ver historial completo', ['historial-cambios', 'id' => $model->id], ['class' => 'text-primary']) ?>
+                <div class="card-footer text-center">
+                    <?= Html::a('Ver historial completo', ['historial-cambios', 'id' => $model->id], [
+                        'class' => 'btn btn-sm btn-outline-primary'
+                    ]) ?>
                 </div>
             </div>
 
-            <?= app\widgets\CreatedByView::widget(['model' => $model]) ?>
+            <!-- Información de creación/actualización -->
+            <?= CreatedByView::widget(['model' => $model]) ?>
         </div>
     </div>
 </div>
 
+<style>
+    .historial-cambios {
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 4px;
+    }
+    .historial-item {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .historial-item:last-child {
+        border-bottom: none;
+    }
+</style>

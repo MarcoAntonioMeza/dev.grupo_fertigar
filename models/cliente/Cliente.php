@@ -3,15 +3,15 @@
 namespace app\models\cliente;
 
 use Yii;
-use yii\db\Expression;
-use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
 use app\models\user\User;
 use app\models\esys\EsysDireccion;
 use app\models\esys\EsysListaDesplegable;
-use app\models\esys\EsysDireccionCodigoPostal;
 use app\models\esys\EsysCambiosLog;
 use app\models\esys\EsysCambioLog;
+use app\models\Esys;
+use  app\models\sat\Regimenfiscal;
+
 /**
  * This is the model class for table "cliente".
  *
@@ -57,6 +57,26 @@ class Cliente extends \yii\db\ActiveRecord
     ];
 
 
+    const ORIGEN_MX = 10;
+    const ORIGEN_USA = 20;
+
+    public static $origenList = [
+        self::ORIGEN_MX   => 'México',
+        self::ORIGEN_USA => 'Estados Unidos',
+    ];
+
+    const TIPO_LISTA_PRECIO_PUBLICO = 10;
+    const TIPO_LISTA_PRECIO_MAYOREO = 20;
+    const TIPO_LISTA_PRECIO_SUBDIS = 30;
+
+    public static $tipoListaPrecioList = [
+        self::TIPO_LISTA_PRECIO_PUBLICO   => 'Precio Publico',
+        self::TIPO_LISTA_PRECIO_MAYOREO => 'Precio Mayoreo',
+        self::TIPO_LISTA_PRECIO_SUBDIS => 'Precio Subdistribuidor',
+    ];
+
+
+
 
 
     public $dir_obj;
@@ -87,16 +107,30 @@ class Cliente extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sexo','atraves_de_id','status', 'created_at', 'created_by', 'updated_at', 'updated_by','titulo_personal_id','asignado_id','tipo_cliente_id','omit_telefono_movil'], 'integer'],
+            [[
+                'sexo',
+                'atraves_de_id',
+                'status',
+                'created_at',
+                'created_by',
+                'updated_at',
+                'updated_by',
+                'titulo_personal_id',
+                'asignado_id',
+                'tipo_cliente_id',
+                'omit_telefono_movil',
+                'pais',
+                'lista_precios'
+            ], 'integer'],
             [['notas'], 'string'],
             [['monto_credito'], 'number'],
             [['semanas'], 'integer'],
-            [['nombre','apellidos','rfc'],'required'],
+            [['nombre', 'apellidos', 'rfc'], 'required'],
             [['nombre', 'apellidos'], 'string', 'max' => 150],
             [['email'], 'string', 'max' => 50],
-            [['telefono'], 'string', 'max' => 20],
+            [['telefono', 'uso_cfdi'], 'string', 'max' => 20],
             //[['telefono_movil'], 'string', 'min' => 10, 'max' => 10 ,'message' => 'El telefono movíl debe ser  a 10 catacteres'],
-            [['email','rfc'], 'unique'],
+            [['email', 'rfc'], 'unique'],
             /*['telefono_movil', 'unique', 'message' => 'El telefono movíl ya ha sido relacionado con otro cliente, ingrese otro nuevamente.', 'when' => function($model) {
                 return self::find()->andWhere(['telefono_movil' => $model->telefono_movil])->andWhere(['status' => self::STATUS_ACTIVE ])->count() > 0 ? true : false;
             }],*/
@@ -104,6 +138,9 @@ class Cliente extends \yii\db\ActiveRecord
             [['asignado_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['asignado_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
+            [['titulo_personal_id'], 'exist', 'skipOnError' => true, 'targetClass' => EsysListaDesplegable::className(), 'targetAttribute' => ['titulo_personal_id' => 'id']],
+            [['agente_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['agente_id' => 'id']],
+            [['regimen_fiscal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Regimenfiscal::className(), 'targetAttribute' => ['regimen_fiscal_id' => 'id']],
         ];
     }
 
@@ -114,8 +151,13 @@ class Cliente extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'titulo_personal_id'=> 'Titulo personal',
-            'atraves_de_id'=> 'Se entero a través de',
+            'regimen_fiscal_id' => 'Regimen fiscal',
+            'pais' => 'Pais',
+            'uso_cfdi' => 'Uso CFDI',
+            'agente_id' => 'Agente asignado',
+            'lista_precios' => 'Lista de precios asignada',
+            'titulo_personal_id' => 'Titulo personal',
+            'atraves_de_id' => 'Se entero a través de',
             'nombre' => 'Nombre',
             'apellidos' => 'Apellidos',
             'email' => 'Email',
@@ -135,6 +177,7 @@ class Cliente extends \yii\db\ActiveRecord
             'created_by' => 'Creado por',
             'updated_at' => 'Modificado',
             'updated_by' => 'Modificado por',
+            'rfc' => 'RFC',
         ];
     }
 
@@ -156,6 +199,22 @@ class Cliente extends \yii\db\ActiveRecord
     public function getUpdatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAgente()
+    {
+        return $this->hasOne(User::className(), ['id' => 'agente_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegimenFiscal()
+    {
+        return $this->hasOne(Regimenfiscal::className(), ['id' => 'regimen_fiscal_id']);
     }
 
     public function getAsignadoCliente()
@@ -180,7 +239,8 @@ class Cliente extends \yii\db\ActiveRecord
     public function getCambiosLog()
     {
         return EsysCambioLog::find()
-            ->andWhere(['or',
+            ->andWhere([
+                'or',
                 ['modulo' => $this->tableName(), 'idx' => $this->id],
                 ['modulo' => EsysDireccion::tableName(), 'idx' => $this->direccion->id],
             ])
@@ -199,14 +259,14 @@ class Cliente extends \yii\db\ActiveRecord
     {
         $query = User::find()
             ->select('id,  nombre, apellidos')
-            ->leftJoin('auth_assignment','`user`.`id` = `auth_assignment`.`user_id`')
+            ->leftJoin('auth_assignment', '`user`.`id` = `auth_assignment`.`user_id`')
             ->andWhere([
-               'item_name' => 'Asesor ventas'
+                'item_name' => 'Asesor ventas'
             ])
             ->orderBy('id asc');
 
-        return ArrayHelper::map($query->all(), 'id', function($value){
-            return '['.$value->id.'] '.$value->nombre .' '.$value->apellidos;
+        return ArrayHelper::map($query->all(), 'id', function ($value) {
+            return '[' . $value->id . '] ' . $value->nombre . ' ' . $value->apellidos;
         });
     }
 
@@ -215,35 +275,34 @@ class Cliente extends \yii\db\ActiveRecord
     //------------------------------------------------------------------------------------------------//
     public function beforeSave($insert)
     {
-        if(parent::beforeSave($insert)) {
+        if (parent::beforeSave($insert)) {
 
             if ($insert) {
                 $this->status     = self::STATUS_ACTIVE;
                 $this->created_at = time();
-                $this->created_by = Yii::$app->user->identity? Yii::$app->user->identity->id: null;
-
-            }else{
+                $this->created_by = Yii::$app->user->identity ? Yii::$app->user->identity->id : null;
+            } else {
                 // Creamos objeto para log de cambios
                 $this->CambiosLog = new EsysCambiosLog($this);
 
                 // Remplazamos manualmente valores del log de cambios
-                foreach($this->CambiosLog->getListArray() as $attribute => $value) {
+                foreach ($this->CambiosLog->getListArray() as $attribute => $value) {
                     switch ($attribute) {
                         case 'titulo_personal_id':
                         case 'atraves_de_id':
                         case 'tipo_cliente_id':
-                            if($value['old'])
+                            if ($value['old'])
                                 $this->CambiosLog->updateValue($attribute, 'old', EsysListaDesplegable::find()->select(['singular'])->where(['id' => $value['old']])->one()->singular);
 
-                            if($value['dirty'])
+                            if ($value['dirty'])
                                 $this->CambiosLog->updateValue($attribute, 'dirty', EsysListaDesplegable::find()->select(['singular'])->where(['id' => $value['dirty']])->one()->singular);
                             break;
 
                         case 'fecha_nac':
-                            if($value['old'])
+                            if ($value['old'])
                                 $this->CambiosLog->updateValue($attribute, 'old', Esys::unixTimeToString($value['old']));
 
-                            if($value['dirty'])
+                            if ($value['dirty'])
                                 $this->CambiosLog->updateValue($attribute, 'dirty', Esys::unixTimeToString($value['dirty']));
                             break;
 
@@ -253,22 +312,20 @@ class Cliente extends \yii\db\ActiveRecord
                             break;
 
                         case 'sexo':
-                            $this->CambiosLog->updateValue($attribute, 'old',  isset(self::$sexoList[$value['old']]) ? self::$sexoList[$value['old']]:'');
+                            $this->CambiosLog->updateValue($attribute, 'old',  isset(self::$sexoList[$value['old']]) ? self::$sexoList[$value['old']] : '');
 
                             $this->CambiosLog->updateValue($attribute, 'dirty', self::$sexoList[$value['dirty']]);
                             break;
-
                     }
                 }
 
 
                 // Quién y cuando
                 $this->updated_at = time();
-                $this->updated_by = Yii::$app->user->identity? Yii::$app->user->identity->id: null;
+                $this->updated_by = Yii::$app->user->identity ? Yii::$app->user->identity->id : null;
             }
 
             return true;
-
         } else
             return false;
     }
@@ -276,14 +333,14 @@ class Cliente extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        if($insert)
+        if ($insert)
             $this->dir_obj->cuenta_id = $this->id;
         else
             // Guardamos un registro de los cambios
             $this->CambiosLog->createLog($this->id);
 
 
-            // Guardar dirección
+        // Guardar dirección
         $this->dir_obj->save();
     }
 
@@ -294,7 +351,7 @@ class Cliente extends \yii\db\ActiveRecord
         $this->direccion->delete();
 
         foreach ($this->cambiosLog as $key => $value) {
-           $value->delete();
+            $value->delete();
         }
     }
 }
