@@ -1,0 +1,103 @@
+/*******************************************************
+* Login
+*******************************************************/
+  #bg-overlay{
+    background-image: url('../../img/bg-img/1.jpg');
+  }
+
+  #bg-overlay2{
+    background-image: url('../../img/bg-img/2.jpg');
+  }
+
+   #bg-overlay3{
+    background-image: url('../../img/bg-img/login.jpg');
+  }
+
+
+  #bg-overlay6{
+    background-image: url('../../img/bg-img/6.jpg');
+  }
+
+  #bg-overlay8{
+    background-image: url('../../img/bg-img/8.jpg');
+  }
+
+  #bg-overlay9{
+    background-image: url('../../img/bg-img/9.jpg');
+  }
+
+.bg-img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: .8;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.cls-content .cls-content-sm, .cls-content .cls-content-lg {
+    width: 70%;
+    min-width: 270px;
+    margin: 0 auto;
+    position: relative;
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+
+.cls-content {
+    padding: 50px 15px 15px;
+    padding-top: 10vh;
+    position: relative;
+}
+
+.bg-img ~ .cls-content .panel {
+    background-color: #fff;
+    box-shadow: 0 0px 20px rgba(0,0,0,0.15);
+}
+/*******************************************************
+* Listas desplegables
+*******************************************************/
+  .btn-cfg-listas{
+    min-width: 170px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  #listas-desplegables .lista-items .list-group-item{
+    cursor: move;
+    background: #fcfcfc;
+    font-size: 1.2em;
+  }
+  #listas-desplegables .lista-items .list-group-item i{
+    margin-right: 8px;
+  }
+  #listas-desplegables .lista-items .p1{
+    height: 45px !important;
+  }
+
+
+/******************************************************
+/* Historial de cambios
+******************************************************/
+  .historial-cambios.nano{
+      height: 500px;
+      padding: 0;
+  }
+  .historial-cambios.nano > .nano-content {
+    padding: 15px;
+  }
+  .historial-cambios ul{
+      padding: 0;
+  }
+  .historial-cambios ul > li {
+      list-style: none;
+  }

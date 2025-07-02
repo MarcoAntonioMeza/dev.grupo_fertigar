@@ -1,0 +1,185 @@
+th[align=center]{
+  text-align: center;
+}
+
+
+/*******************************************************
+* Menú
+*******************************************************/
+  #mainnav-menu span {
+      padding-left: 7px;
+  }
+  #mainnav-menu .fa,
+  #mainnav-menu .glyphicon,
+  #mainnav-menu .mdi,
+  #mainnav-menu .ion {
+      width: 15px;
+  }
+  #mainnav-menu ul .active-link a,
+  #mainnav-menu li > ul > li.active,
+  #mainnav-menu li > ul > li.active a,
+  .menu-popover .sub-menu ul .active-link a {
+      font-weight: normal;
+  }
+  #mainnav-menu ul li.active-link > a{
+      font-weight: 600 !important;
+  }
+  #mainnav-menu > .active .active {
+      border-bottom: none;
+      border-top: none;
+  }
+  #mainnav-menu span {
+      padding-left: 7px;
+      display: inline-block;
+  }
+  #mainnav-menu ul a, .menu-popover .sub-menu ul a {
+      padding: 10px 20px 12px 47px;
+  }
+
+  #mainnav .mainnav-bottom-space{
+    height: 50px;
+  }
+  .note-frame .panel-heading {
+    height: auto;
+  }
+  #dropdown-user .dropdown-backdrop {
+      bottom: 0;
+      left: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: 11;
+  }
+  .ui-datepicker {
+      width: 19em;
+      z-index: 2 !important;
+  }
+  .ui-datepicker-title{
+    font-weight: normal;
+  }
+  .navbar-top-links .tgl-menu-btn {
+      top: -40px !important;
+  }
+
+  @media (min-width: 768px) {
+    .navbar-top-links.pull-right {
+        margin-right: 40px;
+    }
+  }
+
+
+/*******************************************************
+* Otro Nifty
+*******************************************************/
+  #navbar-container div.user-profile {
+    border-bottom: 1px solid #ddd;
+    padding-top: 10px;
+    text-align: center;
+  }
+  #navbar-container div.user-profile img.img-circle {
+    border: 10px solid #c0c0c0;
+    width: 130px;
+  }
+  #navbar-container div.user-profile p small {
+    display: block;
+  }
+  div.dropdown-menu-right{
+    z-index: 11;
+  }
+  .table.table-striped.table-bordered a {
+    padding: 0 3px;
+  }
+  .pad-all {
+    height: 60px;
+    padding: 15px;
+  }
+  .filter-top {
+      margin: 5px 15px;
+      padding: 5px;
+  }
+  .filter-top select{
+      
+  }
+  #container.footer-fixed #footer {
+    margin-top: 0;
+  }
+  #page-content {
+    padding-top: 0px;
+  }
+  #content-container {
+    padding-bottom: 50px;
+  }
+  .input-group-addon {
+    padding: 5px 12px;
+  }
+  .brand-icon {
+    padding: 5px;
+    width: auto;
+  }
+  #container.mainnav-sm .brand-icon {
+    padding: 8px;
+  }
+  .form-checkbox {
+      height: auto;
+      margin: 2px 0 !important;
+  }
+  .text-white,
+  a.text-white{
+    color: #ffffff;
+  }
+  a.text-white:hover{
+    color: #ffffff;
+  }
+
+
+/*******************************************************
+* Loading fullscreen
+*******************************************************/
+  .loading-full{
+      background: rgba(255, 255, 255, 0.5) none repeat scroll 0 0;
+      color: #000;
+      height: 100%;
+      padding: 50px;
+      position: absolute;
+      text-align: center;
+      top: 0;
+      width: 100%;
+      z-index: 999999;
+  }
+
+
+/*******************************************************
+* No print
+*******************************************************/
+  @media print{
+    #navbar,
+    #page-title,
+    #mainnav-container,
+    #footer,
+    .breadcrumb,
+    .scroll-top,
+    .noprint,
+    .no-print{
+      display: none !important;
+    }
+    #footer{
+      margin: 0;
+      padding: 0;
+      padding-left: 0;
+    }
+    #content-container{
+      width: 780px;
+      padding: 0 30px 0 0 !important;
+      margin: 0 !important;
+      font-size: .8em;
+    }
+    .panel-body{
+      padding: 5px 15px;
+    }
+    .panel-heading{
+      height: 30px;
+    }
+    .panel-title {
+      line-height: 30px;
+    }
+  }

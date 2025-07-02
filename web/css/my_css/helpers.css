@@ -1,0 +1,133 @@
+/*******************************************************
+* Helpers
+*******************************************************/
+  .text-through{
+    text-decoration:line-through;
+  }
+  .text-gray{
+    color: #a6a6a6;
+  }
+  .text-primary {
+      color: #00b771 !important;
+  }
+  .text-align-center{
+    text-align: center;
+  }
+  .text-align-right{
+    text-align: right;
+  }
+
+
+  .btn-full-width {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+  }
+  .pointer{
+    cursor: pointer;
+  }
+  .input-text-right{
+    padding-left: 0;
+    padding-right: 6px;
+    text-align: right;
+  }
+  .clearboth{
+    clear: both;
+  }
+  .display-none{
+    display: none !important;
+  }
+  .display-inline{
+    display: inline !important;
+  }
+  .display-inline-block{
+    display: inline-block !important;
+  }
+
+  .max-width-150px{
+    max-width: 150px !important;
+  }
+
+  .max-width-160px{
+    max-width: 160px !important;
+  }
+
+  .max-width-170px{
+    max-width: 170px !important;
+  }
+
+  .max-width-180px{
+    max-width: 180px !important;
+  }
+
+  .max-width-190px{
+    max-width: 190px !important;
+  }
+
+  .max-width-200px{
+    max-width: 200px !important;
+  }
+
+  .max-width-300px{
+    max-width: 300px !important;
+  }
+  .max-width-400px{
+    max-width: 400px !important;
+  }
+
+  .float-left{
+    float: left;
+  }
+  .float-right{
+    float: right;
+  }
+
+
+  .mar-rgt-5px{
+    margin-right: 5px !important;
+  }
+
+  .mar-btm-0{
+    margin-bottom: 0 !important;
+  }
+  .mar-btm-5px{
+    margin-bottom: 5px !important;
+  }
+  .pad-btm-5px{
+    padding-bottom: 5px !important;
+  }
+  .pad-btm-15px{
+    padding-bottom: 15px !important;
+  }
+
+  @media (max-width: 562px) {
+    .pull-left-on-movil {
+      float: left;
+    }
+    .pull-right-on-movil {
+      float: right;
+    }
+  }
+
+
+
+
+
+  .totales span.label{
+    color: #000;
+    display: block;
+    font-size: 1.3em;
+    font-weight: 100;
+  }
+  .totales span.monto{
+    display: block;
+    text-align: center;
+    font-size: 1.5em;
+  }
+  .totales span.total{
+    font-weight: bolder;
+  }
+
+
+
