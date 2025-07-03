@@ -196,7 +196,7 @@ $cobroTotal = 0;
                                     <th class="min-col text-center text-uppercase">PRODUCTO</th>
                                     <th class="min-col text-center text-uppercase">CANTIDAD</th>
                                     <th class="min-col text-center text-uppercase">U.M</th>
-                                    <th class="min-col text-center text-uppercase">COSTO X KILO</th>
+                                    <th class="min-col text-center text-uppercase">COSTO</th>
                                     <th class="min-col text-center text-uppercase">REPARTO</th>
                                 </tr>
                             </thead>
@@ -206,7 +206,7 @@ $cobroTotal = 0;
                                         <td><?=  $item->apply_bodega == VentaDetalle::APPLY_BODEGA_ON ? '<i class="fa fa-check" style="font-size:18px; color:#87a44d"></i>' : '<i class="fa fa-close" style="font-size:18px; color:#000"></i>' ?></td>
                                         <td><?= Html::a( $item->producto->nombre . "[" . $item->producto->clave . "]" , ["/inventario/arqueo-inventario/view", "id" => $item->producto_id ], ["class" => "", "target" => "_blank"])  ?> </td>
                                         <td><?= $item->cantidad  ?>        </td>
-                                        <td><?= Producto::$medidaList[$item->producto->tipo_medida]  ?> </td>
+                                        <td><?= $item->producto->unidadMedida->nombre ?? '--'  ?> </td>
                                         <td><?= $item->precio_venta ? number_format($item->precio_venta,2) : 0 ?> </td>
                                         <td>
                                             <?php if ($item->repartoAdd): ?>

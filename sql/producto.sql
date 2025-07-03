@@ -240,3 +240,83 @@ from
     )
     left join `user` `updated` on((`producto`.`updated_by` = `updated`.`id`))
   )
+
+
+ALTER TABLE producto
+ADD COLUMN clave_sat VARCHAR(20) NULL AFTER clave,
+ADD COLUMN proveedor_id INT unsigned NULL AFTER categoria_id,
+ADD CONSTRAINT fk_producto_proveedor
+    FOREIGN KEY (proveedor_id) REFERENCES proveedor(id)
+    ON DELETE SET NULL ON UPDATE CASCADE;
+
+
+  DROP view if exists `producto_view`;
+
+CREATE VIEW `producto_view` AS
+select
+  `producto`.`id` AS `id`,
+  `producto`.`clave` AS `clave`,
+  `producto`.`clave_sat` AS `clave_sat`,
+  `producto`.`avatar` AS `avatar`,
+  `producto`.`nombre` AS `nombre`,
+  `producto`.`descripcion` AS `descripcion`,
+  `producto`.`unidad_medida_id` AS `unidad_medida_id`,
+  `unidadsat`.`nombre` AS `tipo_medida`,
+  `producto`.`proveedor_id` AS `proveedor_id`,
+  `proveedor`.`nombre` AS `proveedor_nombre`,
+
+  `producto`.`is_app` AS `is_app`,
+  `producto`.`validate` AS `validate`,
+
+  `producto`.`is_subproducto` AS `is_subproducto`,
+  `producto`.`sub_cantidad_equivalente` AS `sub_cantidad_equivalente`,
+  `producto`.`sub_producto_id` AS `sub_producto_id`,
+  `sub_producto`.`nombre` AS `sub_producto_nombre`,
+  `producto`.`categoria_id` AS `categoria_id`,
+  `categoria`.`singular` AS `categoria`,
+  if(
+    (`producto`.`is_app` = 10),
+    unix_timestamp(
+      (
+        from_unixtime(`producto`.`created_at`) + interval 7 day
+      )
+    ),
+    0
+  ) AS `fecha_autorizar`,
+  `producto`.`validate_create_at` AS `validate_create_at`,
+  `producto`.`inventariable` AS `inventariable`,
+  `producto`.`costo` AS `costo`,
+  `producto`.`precio_publico` AS `precio_publico`,
+  `producto`.`precio_mayoreo` AS `precio_mayoreo`,
+  `producto`.`precio_sub` AS `precio_sub`,
+  `producto`.`descuento` AS `descuento`,
+  `producto`.`stock_minimo` AS `stock_minimo`,
+  `producto`.`status` AS `status`,
+  concat_ws(' ', `created`.`nombre`, `created`.`apellidos`) AS `created_by_user`,
+  `producto`.`created_by` AS `created_by`,
+  `producto`.`created_at` AS `created_at`,
+  `producto`.`updated_by` AS `updated_by`,
+  `producto`.`updated_at` AS `updated_at`,
+  concat_ws(' ', `updated`.`nombre`, `updated`.`apellidos`) AS `updated_by_user`
+from
+  (
+    (
+      (
+        (
+          (
+            `producto`
+            join `esys_lista_desplegable` `categoria` on((`producto`.`categoria_id` = `categoria`.`id`))
+          )
+          left join `producto` `sub_producto` on(
+            (
+              `producto`.`sub_producto_id` = `sub_producto`.`id`
+            )
+          )
+        )
+        left join `user` `created` on((`producto`.`created_by` = `created`.`id`))
+      )
+      left join `user` `updated` on((`producto`.`updated_by` = `updated`.`id`))
+    )
+    left join `unidadsat` on((`producto`.`unidad_medida_id` = `unidadsat`.`id`))
+  )
+  left join `proveedor` on((`producto`.`proveedor_id` = `proveedor`.`id`))

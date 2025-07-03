@@ -142,12 +142,12 @@ class Producto extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+     public function rules()
     {
         return [
             [['clave', 'nombre', 'categoria_id', 'precio_publico', 'status'], 'required'],
             [['descripcion'], 'string'],
-            [['unidad_medida_id', 'categoria_id', 'inventariable', 'descuento', 'stock_minimo', 'status', 'created_by', 'created_at', 'updated_by', 'updated_at', 'is_subproducto', 'sub_producto_id', 'sub_cantidad_equivalente', 'is_app', 'validate', 'validate_user_by', 'validate_create_at'], 'integer'],
+            [['unidad_medida_id', 'categoria_id', 'proveedor_id', 'inventariable', 'descuento', 'stock_minimo', 'status', 'created_by', 'created_at', 'updated_by', 'updated_at', 'is_subproducto', 'sub_producto_id', 'sub_cantidad_equivalente', 'is_app', 'validate', 'validate_user_by', 'validate_create_at'], 'integer'],
             [[
                 'costo',
                 'precio_publico',
@@ -161,12 +161,13 @@ class Producto extends \yii\db\ActiveRecord
                 'iva',
                 'ieps',
             ], 'number'],
-            [['imageFile'], 'file', 'extensions' => 'png, jpg'],
             [['clave'], 'string', 'max' => 8, 'min' => 8],
+            [['clave_sat'], 'string', 'max' => 20],
             [['nombre'], 'string', 'max' => 150],
             [['clave'], 'unique'],
             [['is_app'], 'default', 'value' => self::VALIDATE_OFF],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => EsysListaDesplegable::className(), 'targetAttribute' => ['categoria_id' => 'id']],
+            [['proveedor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Proveedor::className(), 'targetAttribute' => ['proveedor_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             [['unidad_medida_id'], 'exist', 'skipOnError' => true, 'targetClass' => Unidadsat::className(), 'targetAttribute' => ['unidad_medida_id' => 'id']],
@@ -188,8 +189,9 @@ class Producto extends \yii\db\ActiveRecord
             'comision_mayoreo' => 'Comisión Mayoreo',
             'iva' => 'IVA',
             'ieps' => 'IEPS',
-            'clave' => 'Clave',
+            'clave_sat' => 'Clave SAT',
             'nombre' => 'Nombre',
+            'proveedor_id' => 'Proveedor',
             'descripcion' => 'Descripcion',
             
             'peso_aprox' => 'Peso Aproximado por unidad {kg}',
@@ -241,6 +243,13 @@ class Producto extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Sucursal::className(), ['id' => 'almacen_id']);
     }
+
+    /**
+     * Gets query for [[Proveedor]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    
 
     /**
      * Gets query for [[Categoria]].
@@ -323,7 +332,7 @@ class Producto extends \yii\db\ActiveRecord
      */
     public function getUnidadMedida()
     {
-        return $this->hasOne(Unidadsat::className(), ['id' => 'unidad_medida_id']);
+        return $this->hasOne(Unidadsat::className(), ['id' => 'unidad_medida_id']) ;
     }
 
 

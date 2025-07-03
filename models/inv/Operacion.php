@@ -189,12 +189,14 @@ class Operacion extends \yii\db\ActiveRecord
             'operacion_detalle.id',
             'operacion_detalle.producto_id',
             'producto.clave as producto_clave',
-            'producto.tipo_medida as producto_tipo_medida',
+            'producto.peso_aprox as producto_peso_aprox',
+            'unidadsat.clave as producto_tipo_medida', 
             'producto.nombre as producto',
             'sum(operacion_detalle.cantidad) as cantidad',
         ])
         ->from("operacion_detalle")
         ->innerJoin("producto","operacion_detalle.producto_id = producto.id")
+         ->leftJoin("unidadsat", "producto.unidad_medida_id = unidadsat.id") // Agregado aquí
         ->andWhere(["and",
             ["=", "operacion_detalle.operacion_id", $operacion_id ],
         ])

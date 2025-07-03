@@ -84,22 +84,7 @@ $bttUrlView   = Url::to(['view?id=']);
                     switchable: false,
                     sortable: true,
                 },
-                {
-                    field: 'tipo',
-                    title: 'Tipo',
-                    align: 'center',
-                    formatter: btf.producto.tipo,
-                    sortable: true,
-                    visible:false,
-                },
-                {
-                    field: 'tipo_medida',
-                    title: 'Unidad medida',
-                    align: 'center',
-                    formatter: btf.producto.unidad,
-                    sortable: true,
-                    visible:false,
-                },
+                
                 {
                     field: 'proveedor',
                     title: 'Proveedor',

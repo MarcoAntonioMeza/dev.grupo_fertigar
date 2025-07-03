@@ -152,8 +152,8 @@ class EntradasSalidasController extends \app\controllers\AppController
                             "costo"     => $producto->costo,
                             "precio_publico"    => $producto->precio_publico,
                             "proveedor"         => isset($producto->proveedor->nombre) ? $producto->proveedor->nombre : 'N/A',
-                            "tipo_medida"       => $producto->tipo_medida,
-                            "tipo_medida_text"  =>Producto::$medidaList[$producto->tipo_medida],
+                            "tipo_medida"       => $producto->unidadMedida ? $producto->unidadMedida->clave : null,
+                            "tipo_medida_text"  =>$producto->unidadMedida ? $producto->unidadMedida->nombre : 'N/A',
                             "existencia"        => $existencia,
                             "sub_existencia"    => $sub_existencia,
                         ],
@@ -251,7 +251,7 @@ class EntradasSalidasController extends \app\controllers\AppController
                             "costo"                 => $c_detalle->costo,
                             "producto_proveedor"    => $Compra->proveedor->nombre,
                             "producto_unidad"       => $c_detalle->producto->tipo_medida,
-                            "producto_unidad_text"  => Producto::$medidaList[$c_detalle->producto->tipo_medida],
+                            "producto_unidad_text"  => $c_detalle->producto->unidadMedida ? $c_detalle->producto->unidadMedida->nombre : 'N/A',
                             "cantidad"              => $c_detalle->cantidad,
                         ]);
                     }
@@ -326,8 +326,8 @@ class EntradasSalidasController extends \app\controllers\AppController
                             "producto_clave"        => $o_detalle->producto->clave,
                             "costo"                 => $o_detalle->costo,
                             "producto_proveedor"    => null,
-                            "producto_unidad"       => $o_detalle->producto->tipo_medida,
-                            "producto_unidad_text"  => Producto::$medidaList[$o_detalle->producto->tipo_medida],
+                            "producto_unidad"       => $o_detalle->producto->unidadMedida ? $o_detalle->producto->unidadMedida->nombre : 'N/A',
+                            "producto_unidad_text"  => $o_detalle->producto->unidadMedida ? $o_detalle->producto->unidadMedida->nombre : 'N/A',
                             "cantidad"              => $o_detalle->cantidad,
                         ]);
                     }
@@ -465,7 +465,7 @@ class EntradasSalidasController extends \app\controllers\AppController
                                 "producto"      => $v_detalle["producto"],
                                 "clave"         => $v_detalle["producto_clave"],
                                 "cantidad"      => $v_detalle["cantidad"],
-                                "producto_unidad"  => Producto::$medidaList[$v_detalle["producto_tipo_medida"]],
+                                "producto_unidad"  => $v_detalle["producto_tipo_medida"],
                             ]);
                         }
 
@@ -513,7 +513,7 @@ class EntradasSalidasController extends \app\controllers\AppController
                 break;
 
             case 'view':
-                $model = ViewSucursal::findOne($name);
+                $model = null;#ViewSucursal::findOne($name);
                 break;
         }
 

@@ -70,15 +70,11 @@ $this->params['breadcrumbs'][] = 'Editar';
                             <?= DetailView::widget([
                                 'model' => $model,
                                 'attributes' => [
-                                    [
-                                        'attribute' => 'Tipo',
-                                        'format'    => 'raw',
-                                        'value'     =>  isset($model->tipo) ?  Producto::$tipoList[$model->tipo] : '' ,
-                                    ],
+                                   
                                     [
                                         'attribute' => 'Unidad de medida',
                                         'format'    => 'raw',
-                                        'value'     =>  isset($model->tipo_medida) ?  Producto::$medidaList[$model->tipo_medida] : '' ,
+                                        'value'     =>  $model->unidadMedida ? $model->unidadMedida->nombre : 'N/A',
                                     ],
                                 ],
                             ]) ?>
@@ -181,7 +177,7 @@ $this->params['breadcrumbs'][] = 'Editar';
                                 <div class="row text-center">
                                     <div class="col-sm-12">
                                         <h1 class="no-margins" style="font-weight:bold;"><?= isset(InvProductoSucursal::getStockProducto($model->id,$key)->cantidad) ?InvProductoSucursal::getStockProducto($model->id,$key)->cantidad : 0 ?></h1>
-                                        <small><strong>STOCK REAL [<?= isset($model->tipo_medida) ?  Producto::$medidaList[$model->tipo_medida] : ' N/A ' ?>]</strong></small>
+                                        <small><strong>STOCK REAL [<?= isset($model->unidadMedida) ?  $model->unidadMedida->nombre : ' N/A ' ?>]</strong></small>
                                     </div>
                                 </div>
                             </div>

@@ -395,6 +395,7 @@ class ViewProducto extends \yii\db\ActiveRecord
                 "CONCAT_WS(' ', `nombre`,'[ clave: ',`clave`,']') AS `text`",
                 'descripcion',
                 'categoria',
+                'tipo_medida',
                 'is_subproducto',
                 'sub_cantidad_equivalente',
                 'sub_producto_id',

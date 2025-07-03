@@ -21,10 +21,10 @@ BootboxAsset::register($this);
 
     <?php $form = ActiveForm::begin() ?>
     <?= $form->field($model->operacion_detalle, 'operacion_detalle_array')->hiddenInput()->label(false) ?>
-    <div class="row">
+    <div class="row ">
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content" style="height: 550px">
+                <div class="ibox-content" style="height: 620px">
                     <?= $form->field($model, 'tipo')->dropDownList(
                         [
                             Operacion::TIPO_ENTRADA => Operacion::$tipoList[Operacion::TIPO_ENTRADA],
@@ -52,7 +52,7 @@ BootboxAsset::register($this);
                     <?= $form->field($model, 'nota')->textarea(['rows' => 6]) ?>
 
 
-                    <div class="form-group">
+                    <div class="form-group m-2">
                         <?= Html::submitButton($model->isNewRecord ? 'Crear operación' : 'Guardar cambios', ["id" => "btnOperacion",'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                         <?= Html::a('Cancelar', ['index', 'tab' => 'index'], ['class' => 'btn btn-white']) ?>
                     </div>
@@ -62,7 +62,7 @@ BootboxAsset::register($this);
             </div>
         </div>
         <div class="col-sm-9">
-            <div class="ibox" >
+            <div class="ibox m-4" >
                 <div class="ibox-content" style="height: 350px">
                     <div style="height: 100%">
                         <table class="table table-bordered">

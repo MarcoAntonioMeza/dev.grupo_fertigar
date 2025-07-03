@@ -125,7 +125,7 @@ class Cliente extends \yii\db\ActiveRecord
             [['notas'], 'string'],
             [['monto_credito'], 'number'],
             [['semanas'], 'integer'],
-            [['nombre', 'apellidos', 'rfc'], 'required'],
+            [['nombre', 'rfc'], 'required'],
             [['nombre', 'apellidos'], 'string', 'max' => 150],
             [['email'], 'string', 'max' => 50],
             [['telefono', 'uso_cfdi'], 'string', 'max' => 20],
@@ -134,7 +134,7 @@ class Cliente extends \yii\db\ActiveRecord
             /*['telefono_movil', 'unique', 'message' => 'El telefono movíl ya ha sido relacionado con otro cliente, ingrese otro nuevamente.', 'when' => function($model) {
                 return self::find()->andWhere(['telefono_movil' => $model->telefono_movil])->andWhere(['status' => self::STATUS_ACTIVE ])->count() > 0 ? true : false;
             }],*/
-            [['telefono_movil'], 'required'],
+            //[['telefono_movil'], 'required'],
             [['asignado_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['asignado_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],

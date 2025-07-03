@@ -36,9 +36,9 @@ class NiftyComponent extends Component{
 			/*****************************
 			* CATALOGOS
 			*****************************/
-			$incidencia= [];
-			if(Yii::$app->user->identity->id == 1 || Yii::$app->user->identity->id == 5 )
-				$incidencia[] = ['label' => '<i class="fa fa-info-circle "></i><span class="nav-label">INCIDENCIAS </span> '. ( User::getNotificacionIncidenciaTraspaso() > 0 ?  '<span class="label float-right" style="background: #de0540; color: #fff;">'. User::getNotificacionIncidenciaTraspaso() .'</span>' : '' ).' ',  'url' => ['/inventario/operacion-entrada-incidencia/index'],  'submenuTemplate' => "\n<ul class='nav nav-second-level'>\n{items}\n</ul>\n"];
+			#$incidencia= [];
+			#if(Yii::$app->user->identity->id == 1 || Yii::$app->user->identity->id == 5 )
+			#	$incidencia[] = ['label' => '<i class="fa fa-info-circle "></i><span class="nav-label">INCIDENCIAS </span> '. ( User::getNotificacionIncidenciaTraspaso() > 0 ?  '<span class="label float-right" style="background: #de0540; color: #fff;">'. User::getNotificacionIncidenciaTraspaso() .'</span>' : '' ).' ',  'url' => ['/inventario/operacion-entrada-incidencia/index'],  'submenuTemplate' => "\n<ul class='nav nav-second-level'>\n{items}\n</ul>\n"];
 			
 
 			$itemsCrm = [];
@@ -87,11 +87,11 @@ class NiftyComponent extends Component{
 
 			$tpvPrecaptura = [];
 
-			if(Yii::$app->user->can('precapturaView'))
-				$tpvPrecaptura[] = ['label' => ' Pre ventas', 'url' => ['/tpv/pre-captura/index'] ];
+			#if(Yii::$app->user->can('precapturaView'))
+			#	$tpvPrecaptura[] = ['label' => ' Pre ventas', 'url' => ['/tpv/pre-captura/index'] ];
 
-			if(Yii::$app->user->can('precapturaView'))
-				$tpvPrecaptura[] = ['label' => 'Pre ventas APP', 'url' => ['/tpv/pre-venta/index'] ];
+			#if(Yii::$app->user->can('precapturaView'))
+			#	$tpvPrecaptura[] = ['label' => 'Pre ventas APP', 'url' => ['/tpv/pre-venta/index'] ];
 
 			if(Yii::$app->user->can('ventaView'))
 				$tpvPrecaptura[] = ['label' => 'Ventas', 'url' => ['/tpv/venta/index'] ];
@@ -137,8 +137,8 @@ class NiftyComponent extends Component{
 
 			$inventarioItem = [];
 
-			if(Yii::$app->user->can('operacionAjusteInventario'))
-				$inventarioItem[] = ['label' => 'OPERACIÓN', 'url' => ['/inventario/operacion/index']];
+			#if(Yii::$app->user->can('operacionAjusteInventario'))
+			#	$inventarioItem[] = ['label' => 'OPERACIÓN', 'url' => ['/inventario/operacion/index']];
 
 			if(Yii::$app->user->can('inventario'))
 				$inventarioItem[] = ['label' => 'CONSULTA', 'url' => ['/inventario/arqueo-inventario/index']];
@@ -249,6 +249,7 @@ class NiftyComponent extends Component{
 			/*****************************
 			* CONTABILIDAD
 			*****************************/
+			/*
 			$itemsConta=[];
 			$contabilidad = [];
 
@@ -276,7 +277,7 @@ class NiftyComponent extends Component{
 				$contabilidad[] = ['label' => '<i class="fa fa-tasks"></i><span class="nav-label">Contabilidad</span> <span class="fa arrow"></span>', 'url' => '#', 'items' => $itemsConta ,'submenuTemplate' => "\n<ul class='nav nav-second-level'>\n{items}\n</ul>\n"];
 
 
-
+			*/
 
 			/*****************************
 			* Administración
@@ -317,11 +318,11 @@ class NiftyComponent extends Component{
 			/*****************************
 			* Menú Items
 			*****************************/
-				if(!empty($incidencia)){
-					foreach ($incidencia as $key => $item) {
-						$this->menuItems[] = $item;
-					}
-				}
+				#if(!empty($incidencia)){
+				#	foreach ($incidencia as $key => $item) {
+				#		$this->menuItems[] = $item;
+				#	}
+				#}
 				
 				if(!empty($crm)){
 					foreach ($crm as $key => $item) {
@@ -393,11 +394,11 @@ class NiftyComponent extends Component{
 					}
 				}
 
-				if(!empty($contabilidad)){
-					foreach ($contabilidad as $key => $item) {
-						$this->menuItems[] = $item;
-					}
-				}
+				#if(!empty($contabilidad)){
+				#	foreach ($contabilidad as $key => $item) {
+				#		$this->menuItems[] = $item;
+				#	}
+				#}
 
 
 				if(!empty($admin)){

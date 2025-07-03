@@ -2,8 +2,17 @@
 use yii\helpers\Html;
 use app\models\Esys;
 use app\models\inv\Operacion;
-use app\models\producto\Producto;
+$peso = 0; // Inicializar la variable peso
+foreach (Operacion::getOperacionDetalleGroup($model->id) as $item) {
+    if (isset($item['producto_peso_aprox'])) {
+        $peso += $item['producto_peso_aprox'] * $item['cantidad'];
+    }
+}
+#convierte a toneladas
+$peso = $peso / 1000; // Convertir a toneladas si es necesario
 ?>
+
+
 <table style="padding: 5px;margin:0; border-spacing: 0px" width="100%">
 	<tr>
 		<td width="20%"></td>
@@ -14,7 +23,7 @@ use app\models\producto\Producto;
 	</tr>
 	<tr>
 		<td style=" padding: 10px;" align="left" width="40%" >
-			<img src="http://erp.pescadosymariscosarroyo.com/web/img/logo.png" height="80px" alt="MARISCOS ARROYO">
+			<img src="https://grupofertigar.com/wp-content/uploads/2023/10/GFP-Color-02.png" height="80px" alt="GRUPO FERTIGAR">
 		</td>
 		<td colspan="2" align="left" style="#000; padding: 0px; border:0px; padding: 20px;" width="60%">
 			<h4 style="font-size: 24px"><strong>REPORTE DE OPERACIÓN</strong></h4>
@@ -112,7 +121,9 @@ use app\models\producto\Producto;
 				<p><strong style="font-size:10px">ORIGEN</strong></p>
 			<?php endif ?>
 		</td>
-		<td width="20%" style="text-align: center;"><strong style="font-size: 24px; "> => </strong></td>
+		<td width="20%" style="text-align: center;"><strong> => <br>
+		
+	<?= number_format($peso, 2) ?> toneladas </strong></td>
 		<td width="40%" style="text-align:center;" >
 
 			<?php if ($model->motivo == Operacion::ENTRADA_MERCANCIA_NUEVA): ?>
@@ -196,7 +207,7 @@ use app\models\producto\Producto;
 				<td align="center" style="border-style:  solid;border-width: 1px;border-spacing: 0px;"><?= $producto["producto_clave"] ?></td>
 				<td align="center" style="border-style:  solid;border-width: 1px;border-spacing: 0px;"><?= $producto["producto"]  ?> </td>
 				<td align="center" style="border-style:  solid;border-width: 1px;border-spacing: 0px;"><?= $producto["cantidad"] ?></td>
-				<td align="center" style="border-style:  solid;border-width: 1px;border-spacing: 0px;"><?= Producto::$medidaList[$producto["producto_tipo_medida"]]  ?></td>
+				<td align="center" style="border-style:  solid;border-width: 1px;border-spacing: 0px;"><?= $producto["producto_tipo_medida"]  ?></td>
 			</tr>
 		<?php endforeach ?>
 	</tbody>

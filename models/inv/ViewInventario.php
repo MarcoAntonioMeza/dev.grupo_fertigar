@@ -16,8 +16,6 @@ use app\models\trans\TransProductoInventario;
  * @property string|null $avatar Avatar
  * @property string|null $nombre Nombre
  * @property string|null $descripcion Descripcion
- * @property int|null $tipo Tipo
- * @property int|null $tipo_medida Unidad de medida
  * @property int|null $is_subproducto Sub Producto
  * @property float|null $sub_cantidad_equivalente Cantidad Equivalente
  * @property int|null $sub_producto_id Sub Producto ID
@@ -35,7 +33,7 @@ use app\models\trans\TransProductoInventario;
  * @property float|null $costo Costo
  * @property float|null $precio_publico Precio publico
  * @property float|null $precio_mayoreo Precio mayoreo
- * @property float|null $precio_menudeo Precio menudeo
+ * @property float|null $precio_sub Precio sub
  * @property int|null $descuento Descuento
  * @property int|null $stock_minimo Stock minimo
  * @property int|null $status Estatus
@@ -67,8 +65,7 @@ class ViewInventario extends \yii\db\ActiveRecord
             'avatar' => 'Avatar',
             'nombre' => 'Nombre',
             'descripcion' => 'Descripcion',
-            'tipo' => 'Tipo',
-            'tipo_medida' => 'Tipo Medida',
+            
             'is_subproducto' => 'Is Subproducto',
             'sub_cantidad_equivalente' => 'Sub Cantidad Equivalente',
             'sub_producto_id' => 'Sub Producto ID',
@@ -80,7 +77,7 @@ class ViewInventario extends \yii\db\ActiveRecord
             'costo' => 'Costo',
             'precio_publico' => 'Precio Publico',
             'precio_mayoreo' => 'Precio Mayoreo',
-            'precio_menudeo' => 'Precio Menudeo',
+            'precio_sub' => 'Precio Menudeo',
             'descuento' => 'Descuento',
             'stock_minimo' => 'Stock Minimo',
             'status' => 'Status',
@@ -122,15 +119,14 @@ class ViewInventario extends \yii\db\ActiveRecord
                     'avatar',
                     'nombre',
                     'descripcion',
-                    'tipo',
-                    'tipo_medida',
+                    
                     'categoria_id',
                     'categoria',
                     'inventariable',
                     'costo',
                     'precio_publico',
                     'precio_mayoreo',
-                    'precio_menudeo',
+                    'precio_sub',
                     'descuento',
                     'stock_total',
                     'stock_minimo',
@@ -195,12 +191,11 @@ class ViewInventario extends \yii\db\ActiveRecord
                 'producto.avatar',
                 'producto.nombre',
                 'producto.descripcion',
-                'producto.tipo',
-                'producto.tipo_medida',
+              
                 'producto.costo',
                 'producto.precio_publico',
                 'producto.precio_mayoreo',
-                'producto.precio_menudeo',
+                'producto.precio_sub',
                 'producto.status',
                 'inv_producto_sucursal.cantidad as stock_total'
             ])
@@ -275,12 +270,11 @@ class ViewInventario extends \yii\db\ActiveRecord
                 'producto.avatar',
                 'producto.nombre',
                 'producto.descripcion',
-                'producto.tipo',
-                'producto.tipo_medida',
+                
                 'producto.costo',
                 'producto.precio_publico',
                 'producto.precio_mayoreo',
-                'producto.precio_menudeo',
+                'producto.precio_sub',
                 'producto.status',
                 'inv_producto_sucursal.cantidad'
             ])
