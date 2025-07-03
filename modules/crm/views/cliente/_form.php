@@ -122,7 +122,7 @@ use app\models\esys\EsysListaDesplegable;
                                 [
                                     'language' => 'es',
                                     'data' => isset($model->agente_id) && $model->agente_id ?
-                                        [$model->agente_id => $model->agente_id->nombre . " " . $model->agente_id->apellidos] : [],
+                                        [$model->agente_id => $model->agente->nombreCompleto] : [],
                                     'pluginOptions' => [
                                         'allowClear' => true,
                                         'minimumInputLength' => 3,

@@ -4,7 +4,6 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 use app\widgets\CreatedByView;
 use app\models\cliente\Cliente;
-use app\models\Esys;
 use app\models\esys\EsysCambiosLog;
 use app\models\esys\EsysDireccion;
 ?>
