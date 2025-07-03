@@ -26,6 +26,7 @@ use app\models\esys\EsysDireccion;
  * @property int $created_at Creado por
  * @property int|null $updated_by Modificado por
  * @property int|null $updated_at Modificado
+ * @property int|null $pais pais
  */
 class Proveedor extends \yii\db\ActiveRecord
 {
@@ -47,6 +48,13 @@ class Proveedor extends \yii\db\ActiveRecord
     public  $dir_obj;
     public  $dir_obj_array;
 
+    const PAIS_MX = 10;
+    const PAIS_US = 20;
+    public static $paisList = [
+        self::PAIS_MX => 'MÉXICO',
+        self::PAIS_US => 'EUA',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -63,7 +71,7 @@ class Proveedor extends \yii\db\ActiveRecord
         return [
             [['descripcion', 'notas','persona_autorizadas','terminos_condicion'], 'string'],
             [['nombre','status'], 'required'],
-            [['status', 'created_by', 'created_at', 'updated_by', 'updated_at','plazo'], 'integer'],
+            [['status', 'created_by', 'created_at', 'updated_by', 'updated_at','plazo','pais'], 'integer'],
             [['nombre', 'razon_social','avatar'], 'string', 'max' => 150],
             [['rfc'], 'string', 'max' => 15],
             [['monto'], 'number'],
@@ -85,6 +93,7 @@ class Proveedor extends \yii\db\ActiveRecord
             'id' => 'ID',
             'avatar' => 'Avatar',
             'nombre' => 'Nombre',
+            'pais' => 'País',
             'rfc' => 'RFC',
             'avatar_file' => 'Avatar',
             'razon_social' => 'Razon Social',
@@ -207,6 +216,9 @@ class Proveedor extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if(parent::beforeSave($insert)) {
+            $this->nombre =        strtoupper(trim($this->nombre));
+            $this->razon_social =  strtoupper(trim($this->razon_social));
+            $this->rfc =           strtoupper(trim($this->rfc));
 
             if ($insert) {
                 $this->created_at = time();

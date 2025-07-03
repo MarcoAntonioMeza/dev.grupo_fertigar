@@ -135,18 +135,14 @@ use app\models\sucursal\Sucursal;
         <div class="ibox-title"><h5>Configuración del producto</h5></div>
         <div class="ibox-content">
             <div class="row">
-                <div class="col-md-3">
-                    <?= $form->field($model, 'pertenece_a')->dropDownList(Producto::$perteneceList) ?>
-                </div>
+               
                 <div class="col-md-3">
                     <?= $form->field($model, 'status')->dropDownList(Producto::$statusList) ?>
                 </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'is_subproducto')->dropDownList(Producto::$tipoProductoList) ?>
                 </div>
-                <div class="col-md-3">
-                    <?= $form->field($model, 'tipo')->dropDownList(Producto::$tipoList, ['prompt' => '']) ?>
-                </div>
+               
 
                 <div class="col-md-4 div_producto" style="display: none">
                     <?= $form->field($model, 'inventariable')->dropDownList(Producto::$invList, ['prompt' => '']) ?>
@@ -188,9 +184,7 @@ use app\models\sucursal\Sucursal;
                 <div class="col-md-6">
                     <?= $form->field($model, 'unidad_medida_id')->dropDownList(\app\models\producto\Unidadsat::get_unudades_sat(), ['prompt' => '--SELECCIONE--']) ?>
                 </div>
-                <div class="col-md-6">
-                    <?= $form->field($model, 'tipo_medida')->dropDownList(Producto::$medidaList, ['prompt' => '']) ?>
-                </div>
+                
             </div>
         </div>
     </div>

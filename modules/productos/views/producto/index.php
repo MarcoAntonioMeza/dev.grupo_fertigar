@@ -107,22 +107,7 @@ $bttUrlDelete = Url::to(['delete?id=']);
                     switchable: false,
                     sortable: true,
                 },
-                {
-                    field: 'tipo',
-                    title: 'Tipo',
-                    align: 'center',
-                    formatter: btf.producto.tipo,
-                    sortable: true,
-                    visible:false,
-                },
-                {
-                    field: 'tipo_medida',
-                    title: 'Unidad medida',
-                    align: 'center',
-                    formatter: btf.producto.unidad,
-                    sortable: true,
-                    visible:false,
-                },
+                
                 {
                     field: 'inventariable',
                     title: '¿ Inventariable ?',
@@ -149,8 +134,8 @@ $bttUrlDelete = Url::to(['delete?id=']);
                     },
 
                     {
-                        field: 'precio_menudeo',
-                        title: 'Precio menudeo',
+                        field: 'precio_sub',
+                        title: 'Precio subdistribuidor',
                         sortable: true,
                         formatter: btf.conta.money,
                         align: 'right',

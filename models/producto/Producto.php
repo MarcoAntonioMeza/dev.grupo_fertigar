@@ -18,8 +18,7 @@ use yii\web\UploadedFile;
  * @property string $clave Clave
  * @property string $nombre Nombre
  * @property string|null $descripcion Descripcion
- * @property int $tipo Tipo
- * @property int $tipo_medida Unidad de medida
+
  * @property int $categoria_id Categoria ID
  * @property int|null $proveedor_id Proveedor ID
  * @property int $almacen_id Almacen ID
@@ -66,7 +65,7 @@ class Producto extends \yii\db\ActiveRecord
         self::TIPO_SUBPRODUCTO   => 'SUB PRODUCTO',
         //self::STATUS_DELETED  => 'Eliminado'
     ];
-
+/*
 
     const PERTENECE_MOJARRA_FRESCA      = 10;
     const PERTENECE_CAMARON_FRESCO      = 20;
@@ -84,30 +83,30 @@ class Producto extends \yii\db\ActiveRecord
         self::PERTENECE_PESCADO_CONGELADO   => 'PESCADOS CONGELADOS',
         self::PERTENECE_MARISCO_CONGELADO   => 'MARISCO CONGELADOS',
         self::PERTENECE_ESPECIALIDADES      => 'ESPECIALIDADES',
-    ];
+    ];*/
 
 
 
-    const TIPO_FRESCO = 10;
-    const TIPO_CONGELADO = 20;
-
-
-    public static $tipoList = [
-        self::TIPO_FRESCO   => 'Fresco',
-        self::TIPO_CONGELADO => 'Congelado',
-        //self::STATUS_DELETED  => 'Eliminado'
-    ];
-
-
-    const MEDIDA_PZ = 10;
-    const MEDIDA_KILO = 20;
-
-
-    public static $medidaList = [
-        self::MEDIDA_PZ   => 'Piezas',
-        self::MEDIDA_KILO => 'Kilogramos',
-        //self::STATUS_DELETED  => 'Eliminado'
-    ];
+    #const TIPO_FRESCO = 10;
+    #const TIPO_CONGELADO = 20;
+#
+#
+    #public static $tipoList = [
+    #    self::TIPO_FRESCO   => 'Fresco',
+    #    self::TIPO_CONGELADO => 'Congelado',
+    #    //self::STATUS_DELETED  => 'Eliminado'
+    #];
+#
+#
+    #const MEDIDA_PZ = 10;
+    #const MEDIDA_KILO = 20;
+#
+#
+    #public static $medidaList = [
+    #    self::MEDIDA_PZ   => 'Piezas',
+    #    self::MEDIDA_KILO => 'Kilogramos',
+    #    //self::STATUS_DELETED  => 'Eliminado'
+    #];
 
     const INV_SI = 10;
     const INV_NO = 20;
@@ -146,9 +145,9 @@ class Producto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['clave', 'nombre', 'tipo', 'categoria_id', 'precio_publico', 'status'], 'required'],
+            [['clave', 'nombre', 'categoria_id', 'precio_publico', 'status'], 'required'],
             [['descripcion'], 'string'],
-            [['tipo', 'tipo_medida', 'unidad_medida_id', 'categoria_id', 'inventariable', 'descuento', 'stock_minimo', 'status', 'created_by', 'created_at', 'updated_by', 'updated_at', 'is_subproducto', 'sub_producto_id', 'sub_cantidad_equivalente', 'is_app', 'validate', 'validate_user_by', 'validate_create_at', 'pertenece_a'], 'integer'],
+            [['unidad_medida_id', 'categoria_id', 'inventariable', 'descuento', 'stock_minimo', 'status', 'created_by', 'created_at', 'updated_by', 'updated_at', 'is_subproducto', 'sub_producto_id', 'sub_cantidad_equivalente', 'is_app', 'validate', 'validate_user_by', 'validate_create_at'], 'integer'],
             [[
                 'costo',
                 'precio_publico',
@@ -192,11 +191,11 @@ class Producto extends \yii\db\ActiveRecord
             'clave' => 'Clave',
             'nombre' => 'Nombre',
             'descripcion' => 'Descripcion',
-            'tipo' => 'Tipo',
+            
             'peso_aprox' => 'Peso Aproximado por unidad {kg}',
-            'pertenece_a' => 'Pertenece',
+            
             'imageFile' => 'Imagen',
-            'tipo_medida' => 'Tipo Medida',
+            
             'categoria_id' => 'Categoria',
             'proveedor_id' => 'Proveedor',
             'almacen_id' => 'Almacen',

@@ -1,4 +1,5 @@
 <?php
+
 use app\models\Esys;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -20,32 +21,42 @@ use app\models\proveedor\Proveedor;
                     <?= DetailView::widget([
                         'model' => $model,
                         'attributes' => [
+
                             'id',
+                            'pais' => [
+                                'attribute' => 'pais',
+                                'value' => function ($model) {
+                                    return Proveedor::$paisList[$model->pais] ?? 'N/A';
+                                },
+                            ],
                             "nombre",
                             "email:email",
                             "rfc",
                             "razon_social",
+
                         ],
                     ]) ?>
                 </div>
             </div>
             <div class="text-center">
                 <?php if ($model->avatar): ?>
-                    <?= Html::img(Url::to(['/avatar/' . $model->avatar]), [ "class" => "rounded-circle", "alt" => "avatar", "style" => 'width:150px; height:150px', 'id' => 'avatar_upload_id'])  ?>
+                    <?= Html::img(Url::to(['/avatar/' . $model->avatar]), ["class" => "rounded-circle", "alt" => "avatar", "style" => 'width:150px; height:150px', 'id' => 'avatar_upload_id'])  ?>
                 <?php endif ?>
             </div>
 
-             <div class="ibox">
+            <div class="ibox">
                 <div class="ibox-title">
                     <h5>CONDICIONES CREDITICIAS</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="row text-center">
                         <div class="col-sm-6">
-                            <h2><?= $model->plazo ? $model->plazo : 0 ?> <p>( PLAZO )</p></h2>
+                            <h2><?= $model->plazo ? $model->plazo : 0 ?> <p>( PLAZO )</p>
+                            </h2>
                         </div>
                         <div class="col-sm-6">
-                            <h2>$<?= number_format($model->monto, 2) ?> <p>( CREDITO AUTORIZADO )</p></h2>
+                            <h2>$<?= number_format($model->monto, 2) ?> <p>( CREDITO AUTORIZADO )</p>
+                            </h2>
                         </div>
                     </div>
                     <div class="row">
@@ -90,7 +101,8 @@ use app\models\proveedor\Proveedor;
                             </div>
 
                             <div class="col-sm-12">
-                                <h5><strong>Direccion: </strong></h5> <p><?= $direccion->direccion ?> </p>
+                                <h5><strong>Direccion: </strong></h5>
+                                <p><?= $direccion->direccion ?> </p>
                             </div>
                             <div class="col-sm-4">
                                 <h5><strong>N° Interno: </strong><small> #<?= $direccion->num_int  ?> </small></h5>
@@ -102,14 +114,14 @@ use app\models\proveedor\Proveedor;
                                 <h5><strong>CP: </strong><small><?= $direccion->codigo_postal_id ? $direccion->esysDireccionCodigoPostal->codigo_postal  : 'N/A' ?></small></h5>
                             </div>
                             <p class="label-danger" style="position: relative;left: 10px; border-radius: 5%; padding: 2px; bottom: 0px"><?= $direccion->tipo  == 1 ? 'PERSONAL' : 'FISCAL' ?></p>
-                    </div>
+                        </div>
                     <?php endforeach ?>
                 </div>
             </div>
 
             <div class="panel panel-info ">
                 <div class="ibox-title">
-                        <h5><?= Proveedor::$statusList[$model->status] ?> </h5>
+                    <h5><?= Proveedor::$statusList[$model->status] ?> </h5>
                 </div>
             </div>
             <div class="ibox">
@@ -117,7 +129,7 @@ use app\models\proveedor\Proveedor;
                     <h5>Historial de cambios</h5>
                 </div>
                 <div class="ibox-content historial-cambios nano" style="overflow-y: scroll; overflow-x: hidden;">
-                    <div class="nano-content" >
+                    <div class="nano-content">
                         <?= EsysCambiosLog::getHtmlLog([
                             [new Proveedor(), $model->id],
                         ], 50, true) ?>

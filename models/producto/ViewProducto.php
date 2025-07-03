@@ -12,9 +12,7 @@ use yii\web\Response;
  * @property string $clave Clave
  * @property string|null $avatar Avatar
  * @property string $nombre Nombre
- * @property string|null $descripcion Descripcion
- * @property int $tipo Tipo
- * @property int $tipo_medida Unidad de medida
+
  * @property int $categoria_id Categoria ID
  * @property string $categoria Singular
  * @property int|null $proveedor_id Proveedor ID
@@ -27,7 +25,7 @@ use yii\web\Response;
  * @property float $costo Costo
  * @property float $precio_publico Precio publico
  * @property float $precio_mayoreo Precio mayoreo
- * @property float|null $precio_menudeo Precio menudeo
+ * @property float|null $precio_sub Precio menudeo
  * @property int|null $descuento Descuento
  * @property int|null $stock_minimo Stock minimo
  * @property int $status Estatus
@@ -54,10 +52,10 @@ class ViewProducto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'tipo', 'tipo_medida', 'categoria_id', 'proveedor_id', 'almacen_id', 'seccion_id', 'inventariable', 'descuento', 'stock_minimo', 'status', 'created_by', 'created_at', 'updated_by', 'updated_at'], 'integer'],
-            [['clave', 'nombre', 'tipo', 'tipo_medida', 'categoria_id', 'categoria', 'almacen_id', 'seccion_id', 'costo', 'precio_publico', 'precio_mayoreo', 'status', 'created_by', 'created_at'], 'required'],
+            [['id', 'categoria_id', 'proveedor_id', 'almacen_id', 'seccion_id', 'inventariable', 'descuento', 'stock_minimo', 'status', 'created_by', 'created_at', 'updated_by', 'updated_at'], 'integer'],
+            [['clave', 'nombre',  'categoria_id', 'categoria', 'almacen_id', 'seccion_id', 'costo', 'precio_publico', 'precio_mayoreo', 'status', 'created_by', 'created_at'], 'required'],
             [['descripcion'], 'string'],
-            [['costo', 'precio_publico', 'precio_mayoreo', 'precio_menudeo'], 'number'],
+            [['costo', 'precio_publico', 'precio_mayoreo', 'precio_sub'], 'number'],
             [['clave'], 'string', 'max' => 8],
             [['avatar', 'nombre', 'proveedor'], 'string', 'max' => 150],
             [['categoria', 'seccion'], 'string', 'max' => 128],
@@ -77,15 +75,14 @@ class ViewProducto extends \yii\db\ActiveRecord
             'avatar' => 'Avatar',
             'nombre' => 'Nombre',
             'descripcion' => 'Descripcion',
-            'tipo' => 'Tipo',
-            'tipo_medida' => 'Tipo Medida',
+            
             'categoria_id' => 'Categoria ID',
             'categoria' => 'Categoria',
             'inventariable' => 'Inventariable',
             'costo' => 'Costo',
             'precio_publico' => 'Precio Publico',
             'precio_mayoreo' => 'Precio Mayoreo',
-            'precio_menudeo' => 'Precio Menudeo',
+            'precio_sub' => 'Precio Menudeo',
             'descuento' => 'Descuento',
             'stock_minimo' => 'Stock Minimo',
             'status' => 'Status',
@@ -127,15 +124,14 @@ class ViewProducto extends \yii\db\ActiveRecord
                     'avatar',
                     'nombre',
                     'descripcion',
-                    'tipo',
-                    'tipo_medida',
+                   
                     'categoria_id',
                     'categoria',
                     'inventariable',
                     'costo',
                     'precio_publico',
                     'precio_mayoreo',
-                    'precio_menudeo',
+                    'precio_sub',
                     'descuento',
                     'stock_minimo',
                     'status',
@@ -237,7 +233,7 @@ class ViewProducto extends \yii\db\ActiveRecord
                 'producto.costo',
                 'producto.precio_publico',
                 'producto.precio_mayoreo',
-                'producto.precio_menudeo',
+                'producto.precio_sub',
             ];
 
 
@@ -329,7 +325,7 @@ class ViewProducto extends \yii\db\ActiveRecord
                 'producto.costo',
                 'producto.precio_publico',
                 'producto.precio_mayoreo',
-                'producto.precio_menudeo',
+                'producto.precio_sub',
             ];
 
 
@@ -398,8 +394,6 @@ class ViewProducto extends \yii\db\ActiveRecord
                 'nombre',
                 "CONCAT_WS(' ', `nombre`,'[ clave: ',`clave`,']') AS `text`",
                 'descripcion',
-                'tipo',
-                'tipo_medida',
                 'categoria',
                 'is_subproducto',
                 'sub_cantidad_equivalente',
@@ -408,7 +402,7 @@ class ViewProducto extends \yii\db\ActiveRecord
                 'costo',
                 'precio_publico',
                 'precio_mayoreo',
-                'precio_menudeo',
+                'precio_sub',
             ])
             ->from(self::tableName())
             ->orderBy('id desc');

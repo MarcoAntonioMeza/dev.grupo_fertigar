@@ -82,21 +82,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'id',
                                     'clave',
                                     'nombre',
-                                    [
-                                        'attribute' => 'tipo',
-                                        'value' => Producto::$tipoProductoList[$model->tipo] ?? '',
-                                    ],
-                                    [
-                                        'attribute' => 'pertenece_a',
-                                        'value' => Producto::$perteneceList[$model->pertenece_a] ?? '',
-                                    ],
+                                   
+                                   
                                     [
                                         'attribute' => 'categoria_id',
                                         'value' => $model->categoria->singular ?? '',
-                                    ],
-                                    [
-                                        'attribute' => 'tipo_medida',
-                                        'value' => Producto::$medidaList[$model->tipo_medida] ?? '',
                                     ],
                                     [
                                         'attribute' => 'unidad_medida_id',
